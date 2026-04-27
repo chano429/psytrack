@@ -307,7 +307,7 @@ export default function HistoriaClinica() {
   };
 
   const generarObjetivosSMART = (resultados: any[]) => {
-          textosMeta: any[] = [];
+          let textosMeta: any[] = [];
           resultados.forEach(r => {
           const testCorto = r.nombre.includes('PHQ') ? 'PHQ-9' : 'GAD-7';
           const meta = Math.max(0, r.puntaje - 5);
