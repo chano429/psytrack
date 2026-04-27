@@ -62,7 +62,9 @@ export default function HistoriaClinica() {
   const [formClinicaData, setFormClinicaData] = useState({
     motivo_consulta: "", antecedente_internacion: false, detalle_internacion: ""
   });
-  const [medicacionesForm, setMedicacionesForm] = useState<{ nombre: string; profesional: string }[]>([]);
+  
+  // SOLUCIÓN: Cambiado a any[] para evitar errores de propiedades inexistentes
+  const [medicacionesForm, setMedicacionesForm] = useState<any[]>([]);
 
   const [editandoTurnoId, setEditandoTurnoId] = useState<string | null>(null);
   const [turnoEditData, setTurnoEditData] = useState({ fecha: "", hora: "", estado: "" });
@@ -106,7 +108,6 @@ export default function HistoriaClinica() {
         motivo_consulta: dataPaciente.motivo_consulta || "", antecedente_internacion: dataPaciente.antecedente_internacion || false, detalle_internacion: dataPaciente.detalle_internacion || ""
       });
       
-      // TRADUCTOR INTELIGENTE DE MEDICACIÓN (Evita el Error 31 de React)
       try {
         let meds = [];
         if (typeof dataPaciente.medicacion === 'string') {
@@ -188,7 +189,8 @@ export default function HistoriaClinica() {
 
   const agregarMedicion = () => setMedicacionesForm([...medicacionesForm, { nombre: "", profesional: "" }]);
   const removerMedicacion = (index: number) => setMedicacionesForm(medicacionesForm.filter((_, i) => i !== index));
-  const actualizarMedicacion = (index: number, campo: 'nombre' | 'profesional', valor: string) => setMedicacionesForm(medicacionesForm.map((med, i) => i === index ? { ...med, [campo]: valor } : med));
+  // SOLUCIÓN: Cambiado campo a string para compatibilidad con any
+  const actualizarMedicacion = (index: number, campo: string, valor: string) => setMedicacionesForm(medicacionesForm.map((med, i) => i === index ? { ...med, [campo]: valor } : med));
 
   const guardarNota = async () => {
     if (!nuevaEvolucion.fecha || !nuevaEvolucion.notas) return;
@@ -342,7 +344,6 @@ export default function HistoriaClinica() {
     return true;
   });
 
-  // FUNCIÓN RENDERMEDICACION BLINDADA (Acá estaba el bug)
   const renderMedicacion = () => {
     if (!paciente?.medicacion) return <span className="text-[#A49A8D] italic">Sin medicación registrada</span>;
     
