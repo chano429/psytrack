@@ -4,6 +4,9 @@ import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { UserPlus, Search, User, ChevronRight, Loader2, Phone, CreditCard } from "lucide-react";
 
+export const dynamic = 'force-dynamic'; // <--- ESTA ES LA LÍNEA MÁGICA QUE AGREGAMOS
+export const revalidate = 0; // <--- Y ESTA TAMBIÉN (Evita la caché agresiva de Vercel)
+
 export default function ListaPacientes() {
   const [pacientes, setPacientes] = useState<any[]>([]);
   const [busqueda, setBusqueda] = useState("");
@@ -82,7 +85,7 @@ export default function ListaPacientes() {
                       <td className="p-6">
                         <div className="flex items-center gap-4">
                           <div className="w-11 h-11 bg-[#E8F0E9] rounded-2xl flex items-center justify-center text-[#556B5A] font-bold text-sm">
-                            {p.nombre[0]}{p.apellido[0]}
+                            {p.nombre?.[0]}{p.apellido?.[0]}
                           </div>
                           <div>
                             <p className="font-bold text-[#4A443C] text-lg leading-tight">{p.apellido}, {p.nombre}</p>
