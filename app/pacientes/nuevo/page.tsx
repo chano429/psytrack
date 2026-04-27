@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { Save, UserPlus, ArrowLeft, X, CreditCard, BookOpen, Search, UserCircle, Stethoscope, PhoneCall, Check, Plus } from "lucide-react";
+import { Save, UserPlus, ArrowLeft, X, CreditCard, BookOpen, Search, UserCircle, Stethoscope, PhoneCall, Check, Plus,XCircle } from "lucide-react";
 import Link from "next/link";
 
 const tooltipStyles = "before:content-[attr(title)] before:absolute before:bottom-full before:left-1/2 before:-translate-x-1/2 before:mb-2 before:px-3 before:py-1.5 before:bg-[#4A443C]/90 before:text-white before:text-xs before:font-bold before:rounded-lg before:opacity-0 before:transition-opacity before:pointer-events-none before:whitespace-nowrap group-hover:before:opacity-100";
