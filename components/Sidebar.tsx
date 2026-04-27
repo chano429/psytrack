@@ -1,10 +1,13 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Calendar, BarChart3, Settings, Menu } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation"; // Agregamos useRouter
+import { LayoutDashboard, Users, Calendar, BarChart3, LogOut, Menu } from "lucide-react"; // Cambiamos Settings por LogOut
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"; // Importamos Supabase
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
   const links = [
     { name: "Mi consultorio", href: "/", icon: LayoutDashboard },
@@ -12,6 +15,13 @@ export default function Sidebar() {
     { name: "Pacientes", href: "/pacientes", icon: Users },
     { name: "Reportes", href: "/reportes", icon: BarChart3 },
   ];
+
+  // Función para cerrar sesión
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.push("/login"); // Te manda al login
+    router.refresh();      // Limpia la memoria del navegador
+  };
 
   return (
     <aside className="h-screen bg-[#F2EFE9] border-r border-[#E8E3D9] flex flex-col shadow-sm transition-all duration-300 w-20 hover:w-64 group relative z-50">
@@ -28,7 +38,6 @@ export default function Sidebar() {
       {/* Navegación */}
       <nav className="flex-1 px-3 py-6 space-y-2 overflow-hidden">
         {links.map((link) => {
-          // Lógica para saber si estamos en esa sección (o en una sub-sección como editar)
           const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
           
           return (
@@ -41,7 +50,7 @@ export default function Sidebar() {
                   : "text-[#6D645A] hover:bg-[#E8E3D9] hover:text-[#4A443C] font-medium"
                 }
               `}
-              title={link.name} // Muestra el nombre al pasar el mouse si está achicado
+              title={link.name}
             >
               <link.icon size={22} className={`shrink-0 ${isActive ? "text-[#556B5A]" : "text-[#8C9C8E]"}`} /> 
               <span className={`transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-90"} hidden group-hover:block`}>
@@ -52,11 +61,15 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Ajustes */}
+      {/* Botón de Cerrar Sesión */}
       <div className="p-3 border-t border-[#E8E3D9] overflow-hidden">
-        <button className="flex items-center gap-4 p-3.5 w-full text-[#6D645A] hover:bg-[#E8E3D9] rounded-2xl transition-all whitespace-nowrap" title="Ajustes">
-          <Settings size={22} className="text-[#8C9C8E] shrink-0" /> 
-          <span className="font-medium hidden group-hover:block">Ajustes</span>
+        <button 
+          onClick={handleSignOut}
+          className="flex items-center gap-4 p-3.5 w-full text-red-600 hover:bg-red-50 rounded-2xl transition-all whitespace-nowrap" 
+          title="Cerrar Sesión"
+        >
+          <LogOut size={22} className="shrink-0" /> 
+          <span className="font-medium hidden group-hover:block">Cerrar Sesión</span>
         </button>
       </div>
     </aside>
