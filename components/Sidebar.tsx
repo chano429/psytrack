@@ -1,13 +1,19 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation"; // Agregamos useRouter
-import { LayoutDashboard, Users, Calendar, BarChart3, LogOut, Menu } from "lucide-react"; // Cambiamos Settings por LogOut
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"; // Importamos Supabase
+import { usePathname, useRouter } from "next/navigation";
+import { LayoutDashboard, Users, Calendar, BarChart3, LogOut, Menu } from "lucide-react";
+// Usamos el cliente estándar que es más estable
+import { createClient } from "@supabase/supabase-js";
+
+// Inicializamos el cliente afuera (necesitás tus variables de entorno)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const supabase = createClientComponentClient();
 
   const links = [
     { name: "Mi consultorio", href: "/", icon: LayoutDashboard },
@@ -16,13 +22,16 @@ export default function Sidebar() {
     { name: "Reportes", href: "/reportes", icon: BarChart3 },
   ];
 
-  // Función para cerrar sesión
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.push("/login"); // Te manda al login
-    router.refresh();      // Limpia la memoria del navegador
+    try {
+      await supabase.auth.signOut();
+      // Forzamos la limpieza y el redireccionamiento
+      window.location.href = "/login"; 
+    } catch (error) {
+      console.error("Error al salir:", error);
+    }
   };
-
+  
   return (
     <aside className="h-screen bg-[#F2EFE9] border-r border-[#E8E3D9] flex flex-col shadow-sm transition-all duration-300 w-20 hover:w-64 group relative z-50">
       
