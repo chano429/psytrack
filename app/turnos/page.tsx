@@ -53,7 +53,6 @@ export default function AgendaTurnos() {
   hoyReal.setHours(0, 0, 0, 0);
 
   const traerTurnos = async () => {
-    // Agregamos 'celular' a la consulta para el WhatsApp
     const { data } = await supabase
       .from('turnos')
       .select(`*, pacientes (nombre, apellido, celular)`)
@@ -62,7 +61,6 @@ export default function AgendaTurnos() {
     
     if (data) setTurnos(data);
 
-    // Traemos el valor por defecto de la sesión para el cobro
     const { data: config } = await supabase.from('configuracion').select('valor_sesion_defecto').limit(1).single();
     if (config) setValorDefecto(config.valor_sesion_defecto?.toString() || "");
 
@@ -81,21 +79,15 @@ export default function AgendaTurnos() {
 
   const procesarInfoFecha = (fechaIso: string) => {
     if (!fechaIso) return null;
-    
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
-
     const [y, m, d] = fechaIso.split('-');
     const fechaTurno = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
-    
     const dias = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     const diaSemana = dias[fechaTurno.getDay()];
-    
     const esSabado = fechaTurno.getDay() === 6;
     const esDomingo = fechaTurno.getDay() === 0;
-    
     const estaVencido = fechaTurno < hoy;
-
     return { diaSemana, esSabado, esDomingo, estaVencido };
   };
 
@@ -103,18 +95,8 @@ export default function AgendaTurnos() {
     const query = busqueda.toLowerCase();
     const nombreCompleto = `${t.pacientes?.nombre} ${t.pacientes?.apellido}`.toLowerCase();
     const fechaArg = formatearFechaArg(t.fecha);
-
     return nombreCompleto.includes(query) || fechaArg.includes(query);
   });
-
-  // --- FUNCIONES DE ACCIONES ---
-  const cambiarEstado = async (e: React.MouseEvent | null, id: number, nuevoEstado: string) => {
-    if (e) { e.preventDefault(); e.stopPropagation(); }
-    const { error } = await supabase.from('turnos').update({ estado: nuevoEstado }).eq('id', id);
-    if (!error) {
-      setTurnos(turnos.map(t => t.id === id ? { ...t, estado: nuevoEstado } : t));
-    }
-  };
 
   const abrirModalCobro = (e: React.MouseEvent | null, turno: any) => {
     if (e) { e.preventDefault(); e.stopPropagation(); }
@@ -177,13 +159,11 @@ export default function AgendaTurnos() {
     }
   };
 
-  // --- FUNCIONES DEL CALENDARIO ---
   const obtenerDiasSemana = (fecha: Date) => {
     const diaActual = fecha.getDay();
     const diferenciaLunes = diaActual === 0 ? -6 : 1 - diaActual; 
     const lunes = new Date(fecha);
     lunes.setDate(fecha.getDate() + diferenciaLunes);
-
     const semana = [];
     for (let i = 0; i < 6; i++) { 
       const dia = new Date(lunes);
@@ -327,7 +307,7 @@ export default function AgendaTurnos() {
         </div>
       )}
 
-      {/* CABECERA Y BOTONES DE VISTA */}
+      {/* CABECERA */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E8E3D9] pb-6">
         <div>
           <h1 className="text-3xl md:text-4xl font-black text-[#4A443C] tracking-tight">Agenda de Sesiones</h1>
@@ -349,7 +329,6 @@ export default function AgendaTurnos() {
               <ListFilter size={16}/> Lista
             </button>
           </div>
-
           <Link href="/turnos/nuevo" className="flex items-center justify-center gap-2 bg-[#6B806F] hover:bg-[#556B5A] text-white px-6 py-2.5 rounded-2xl font-bold transition-all shadow-sm">
             <Plus size={18} /> Nuevo
           </Link>
@@ -362,8 +341,6 @@ export default function AgendaTurnos() {
           <p className="font-bold text-sm">Sincronizando agenda...</p>
         </div>
       ) : vista === "calendario" ? (
-        
-        /* --- VISTA CALENDARIO --- */
         <div className="bg-white border border-[#E8E3D9] rounded-[2.5rem] shadow-sm overflow-hidden animate-in fade-in zoom-in-95 duration-300">
             <div className="bg-[#FBF9F6] px-6 py-4 flex items-center justify-between border-b border-[#E8E3D9]">
                 <div className="flex items-center gap-2">
@@ -375,7 +352,6 @@ export default function AgendaTurnos() {
                     {diasSemana[0].toLocaleDateString('es-AR', { month: 'long', year: 'numeric' })}
                 </h2>
             </div>
-
             <div className="overflow-x-auto">
                 <div className="min-w-[800px]">
                     <div className="grid grid-cols-7 border-b border-[#E8E3D9] bg-white">
@@ -396,18 +372,15 @@ export default function AgendaTurnos() {
                             )
                         })}
                     </div>
-
                     <div className="bg-[#FBF9F6]">
                         {horas.map(hora => (
                             <div key={hora} className="grid grid-cols-7 border-b border-[#E8E3D9]/50 group relative">
                                 <div className="p-3 text-center border-r border-[#E8E3D9]/50 flex items-center justify-center bg-white relative z-10">
                                     <span className="text-xs font-bold text-[#A49A8D]">{hora}</span>
                                 </div>
-
                                 {diasSemana.map((dia, i) => {
                                     const turno = buscarTurnoEnCalendario(dia, hora);
                                     const esPasado = dia < hoyReal;
-                                    
                                     return (
                                         <div key={`${i}-${hora}`} className="border-r border-[#E8E3D9]/50 last:border-0 relative h-16 sm:h-20 bg-white group/casillero">
                                             {turno ? (
@@ -419,13 +392,10 @@ export default function AgendaTurnos() {
                                                         <span className="font-black text-xs truncate capitalize block">{turno.pacientes?.apellido}, {turno.pacientes?.nombre}</span>
                                                         <span className="text-[9px] font-bold uppercase tracking-wider mt-0.5 opacity-80 truncate block">{turno.estado || 'Pendiente'}</span>
                                                     </div>
-                                                    
-                                                    {/* ÍCONO PARA IR A LA FICHA DESDE EL CALENDARIO */}
                                                     <Link 
                                                         href={`/pacientes/${turno.paciente_id}`}
                                                         onClick={(e) => e.stopPropagation()}
                                                         className="absolute top-1 right-1 p-1.5 rounded-lg bg-white/60 hover:bg-white text-[#4A443C] transition-all shadow-sm opacity-100 md:opacity-0 md:group-hover/turno:opacity-100"
-                                                        title="Ver ficha del paciente"
                                                     >
                                                         <User size={14} />
                                                     </Link>
@@ -434,7 +404,6 @@ export default function AgendaTurnos() {
                                                 <div 
                                                     onClick={() => clickEnHueco(dia, hora)}
                                                     className={`w-full h-full flex items-center justify-center transition-colors group/hueco ${esPasado ? 'bg-[#F9F7F2] cursor-not-allowed' : 'cursor-pointer hover:bg-[#F2EFE9]'}`}
-                                                    title={esPasado ? "No se puede agendar en el pasado" : "Agendar aquí"}
                                                 >
                                                     {!esPasado && <Plus size={16} className="text-[#A49A8D] opacity-0 group-hover/hueco:opacity-100 transition-opacity" />}
                                                 </div>
@@ -447,24 +416,19 @@ export default function AgendaTurnos() {
                     </div>
                 </div>
             </div>
-
+        </div>
       ) : (
-
-        /* --- VISTA LISTA ORIGINAL (Adaptada con el Modal) --- */
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-300 flex flex-col gap-8">
-            {/* BUSCADOR */}
             <div className="relative group">
                 <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-[#A49A8D] group-focus-within:text-[#6B806F] transition-colors" size={24} />
                 <input 
                 type="text"
-                placeholder="Buscá por nombre o fecha (ej: 30/03)..."
-                className="w-full p-6 pl-16 bg-white border border-[#E8E3D9] rounded-[2rem] outline-none focus:ring-4 focus:ring-[#6B806F]/5 transition-all shadow-sm text-xl text-[#4A443C] placeholder:text-[#A49A8D]/60"
+                placeholder="Buscá por nombre o fecha..."
+                className="w-full p-6 pl-16 bg-white border border-[#E8E3D9] rounded-[2rem] outline-none focus:ring-4 focus:ring-[#6B806F]/5 transition-all shadow-sm text-xl text-[#4A443C]"
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
                 />
             </div>
-
-            {/* LISTADO */}
             <div className="flex flex-col gap-5">
                 {turnosFiltrados.length === 0 ? (
                 <div className="bg-white border border-[#E8E3D9] rounded-[3rem] p-24 text-center">
@@ -474,8 +438,6 @@ export default function AgendaTurnos() {
                 turnosFiltrados.map((turno) => {
                     const infoFecha = procesarInfoFecha(turno.fecha);
                     const estadoActual = turno.estado || 'Pendiente';
-                    const esPendiente = estadoActual.toLowerCase() === 'pendiente';
-
                     return (
                     <div 
                         key={turno.id} 
@@ -483,58 +445,24 @@ export default function AgendaTurnos() {
                         className="bg-white border border-[#E8E3D9] rounded-[2.5rem] p-7 flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-xl transition-all border-l-[14px] border-l-[#8C9C8E] shadow-sm cursor-pointer group"
                     >
                         <div className="flex items-center gap-8 flex-1 w-full">
-                        {/* RELOJ CON DÍA Y FECHA */}
-                        <div className="bg-[#FBF9F6] p-4 rounded-[1.5rem] border border-[#E8E3D9] text-center min-w-[110px] shadow-inner">
-                            <p className="text-3xl font-black text-[#4A443C] tracking-tighter leading-none">{turno.hora.slice(0, 5)}</p>
-                            <div className="mt-2 flex flex-col items-center leading-tight">
-                            <span className={`text-sm font-bold 
-                                ${infoFecha?.esSabado ? 'text-[#4A6FA5]' : infoFecha?.esDomingo ? 'text-[#B06043]' : 'text-[#8A8175]'}`}
-                            >
-                                {infoFecha?.diaSemana}
-                            </span>
-                            <span className="text-xs font-bold text-[#6B806F]">
-                                {formatearFechaArg(turno.fecha).slice(0, 5)}
-                            </span>
+                        <div className="bg-[#FBF9F6] p-4 rounded-[1.5rem] border border-[#E8E3D9] text-center min-w-[110px]">
+                            <p className="text-3xl font-black text-[#4A443C]">{turno.hora.slice(0, 5)}</p>
+                            <div className="mt-2 flex flex-col items-center">
+                            <span className="text-sm font-bold text-[#8A8175]">{infoFecha?.diaSemana}</span>
+                            <span className="text-xs font-bold text-[#6B806F]">{formatearFechaArg(turno.fecha).slice(0, 5)}</span>
                             </div>
                         </div>
-
                         <div className="flex-1">
                             <div className="flex items-center gap-2 mb-2">
-                            <span className={`text-xs font-bold px-3 py-1 rounded-lg border capitalize ${getEstadoEstilo(estadoActual)}`}>
-                                {estadoActual}
-                            </span>
-                            
-                            {infoFecha?.estaVencido && esPendiente && (
-                                <span className="text-xs font-bold text-[#B06043] bg-[#FCEEE9] px-3 py-1 rounded-md">
-                                Vencido
-                                </span>
-                            )}
-                            
-                            <span className="text-xs font-bold text-[#A49A8D] ml-1">{formatearFechaArg(turno.fecha)}</span>
+                                <span className={`text-xs font-bold px-3 py-1 rounded-lg border capitalize ${getEstadoEstilo(estadoActual)}`}>{estadoActual}</span>
+                                <span className="text-xs font-bold text-[#A49A8D]">{formatearFechaArg(turno.fecha)}</span>
                             </div>
-                            <h3 className="text-2xl font-bold text-[#4A443C] tracking-tight group-hover:text-[#6B806F] transition-colors">
-                            {turno.pacientes?.apellido}, {turno.pacientes?.nombre}
-                            </h3>
+                            <h3 className="text-2xl font-bold text-[#4A443C]">{turno.pacientes?.apellido}, {turno.pacientes?.nombre}</h3>
                         </div>
                         </div>
-
-                        {/* ACCIONES - MODIFICADO PARA INCLUIR VER FICHA DIRECTO */}
-                        <div className="flex items-center gap-3 bg-[#FBF9F6] p-3 rounded-[1.5rem] border border-[#E8E3D9] relative z-10 shadow-inner">
-                            <button 
-                                onClick={(e) => abrirModalCobro(e, turno)}
-                                className={`px-5 py-3 rounded-xl text-xs font-black transition-all ${estadoActual.toLowerCase() === 'asistio' ? 'bg-[#6B806F] text-white shadow-lg' : 'text-[#8A8175] hover:text-[#556B5A] hover:bg-[#E8F0E9]'}`}
-                                title="Cobrar / Marcar como asistió"
-                            >
-                                <Check size={18} />
-                            </button>
-                            <Link 
-                                href={`/pacientes/${turno.paciente_id}`}
-                                onClick={(e) => e.stopPropagation()}
-                                className="px-5 py-3 rounded-xl text-xs font-black transition-all text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
-                                title="Ver ficha del paciente"
-                            >
-                                <User size={18} />
-                            </Link>
+                        <div className="flex items-center gap-3 bg-[#FBF9F6] p-3 rounded-[1.5rem] border border-[#E8E3D9]">
+                            <button onClick={(e) => abrirModalCobro(e, turno)} className="px-5 py-3 rounded-xl text-[#8A8175] hover:bg-[#E8F0E9]"><Check size={18} /></button>
+                            <Link href={`/pacientes/${turno.paciente_id}`} onClick={(e) => e.stopPropagation()} className="px-5 py-3 rounded-xl text-[#8A8175] hover:bg-[#E8E3D9]"><User size={18} /></Link>
                         </div>
                     </div>
                     );
