@@ -4,8 +4,6 @@ import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { UserPlus, Search, User, ChevronRight, Loader2, Phone, CreditCard } from "lucide-react";
 
-export const dynamic = 'force-dynamic'; // <--- ESTA ES LA LÍNEA MÁGICA QUE AGREGAMOS
-export const revalidate = 0; // <--- Y ESTA TAMBIÉN (Evita la caché agresiva de Vercel)
 
 export default function ListaPacientes() {
   const [pacientes, setPacientes] = useState<any[]>([]);
@@ -16,8 +14,9 @@ export default function ListaPacientes() {
     async function traerPacientes() {
       const { data } = await supabase
         .from('pacientes')
-        .select('*')
+        .select('*', { count: 'exact' }) // Agregamos un detalle técnico para forzar la lectura
         .order('apellido', { ascending: true });
+      
       if (data) setPacientes(data);
       setCargando(false);
     }
