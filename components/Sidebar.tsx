@@ -25,13 +25,13 @@ export default function Sidebar() {
   const handleSignOut = async () => {
     try {
       await supabase.auth.signOut();
-      // Forzamos la limpieza y el redireccionamiento
-      window.location.href = "/login"; 
+      // En lugar de ir a /login, vamos a la raíz y refrescamos
+      window.location.href = "/"; 
     } catch (error) {
       console.error("Error al salir:", error);
     }
   };
-  
+
   return (
     <aside className="h-screen bg-[#F2EFE9] border-r border-[#E8E3D9] flex flex-col shadow-sm transition-all duration-300 w-20 hover:w-64 group relative z-50">
       
