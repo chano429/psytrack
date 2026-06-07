@@ -37,6 +37,7 @@ import {
   Brain,
   TrendingDown,
   Sparkles,
+  Trash2,
   MessageSquare, // ← Agregar aquí
 } from "lucide-react";
 import Link from "next/link";
@@ -2036,7 +2037,7 @@ export default function HistoriaClinica() {
     <Settings2 size={20} />
   </button>
 
-  {/* Botón de Eliminar (Cruz roja) */}
+  {/* Botón de Eliminar (Cesto de basura) */}
   <button 
     onClick={async () => {
       if (confirm("¿Estás seguro de que deseas eliminar esta nota clínica? Esta acción no se puede deshacer.")) {
@@ -2055,7 +2056,7 @@ export default function HistoriaClinica() {
     className="text-[#A49A8D] hover:text-[#B06043] transition-colors"
     title="Eliminar nota"
   >
-    <XCircle size={20} />
+    <Trash2 size={20} />
   </button>
 </div>
                           </div>
