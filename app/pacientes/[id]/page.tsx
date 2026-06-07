@@ -1950,12 +1950,18 @@ export default function HistoriaClinica() {
                       Cancelar
                     </button>
                     <button
-                      onClick={guardarNota}
-                      disabled={guardandoEvolucion}
-                      className="bg-[#6B806F] text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-sm hover:bg-[#556B5A]"
-                    >
-                      {guardandoEvolucion ? "Guardando..." : "Guardar nota"}
-                    </button>
+  onClick={() => {
+    if (notaEnEdicionId) {
+      actualizarNota();
+    } else {
+      guardarNota();
+    }
+  }}
+  disabled={guardandoEvolucion}
+  className="bg-[#6B806F] text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-sm hover:bg-[#556B5A]"
+>
+  {guardandoEvolucion ? "Guardando..." : notaEnEdicionId ? "Actualizar nota" : "Guardar nota"}
+</button>
                   </div>
                 </div>
               )}
@@ -2015,17 +2021,43 @@ export default function HistoriaClinica() {
                                 <User size={16} /> Profesional
                               </span>
                             </div>
-                            <button 
-  onClick={() => {
-    setNotaEnEdicionId(evo.id);
-    setNuevaEvolucion({ fecha: evo.fecha, diagnostico: evo.diagnostico || "", notas: evo.notas || "" });
-    setMostrarFormulario(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }}
-  className="text-[#A49A8D] hover:text-[#6B806F] transition-colors"
->
-  <Settings2 size={20} />
-</button>
+                            <div className="flex items-center gap-3">
+  {/* Botón de Editar (Tuerquita) */}
+  <button 
+    onClick={() => {
+      setNotaEnEdicionId(evo.id);
+      setNuevaEvolucion({ fecha: evo.fecha, diagnostico: evo.diagnostico || "", notas: evo.notas || "" });
+      setMostrarFormulario(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }}
+    className="text-[#A49A8D] hover:text-[#6B806F] transition-colors"
+    title="Editar nota"
+  >
+    <Settings2 size={20} />
+  </button>
+
+  {/* Botón de Eliminar (Cruz roja) */}
+  <button 
+    onClick={async () => {
+      if (confirm("¿Estás seguro de que deseas eliminar esta nota clínica? Esta acción no se puede deshacer.")) {
+        const { error } = await supabase
+          .from("evoluciones")
+          .delete()
+          .eq("id", evo.id);
+        
+        if (!error) {
+          traerDatos();
+        } else {
+          alert("Error al eliminar: " + error.message);
+        }
+      }
+    }}
+    className="text-[#A49A8D] hover:text-[#B06043] transition-colors"
+    title="Eliminar nota"
+  >
+    <XCircle size={20} />
+  </button>
+</div>
                           </div>
                         </div>
                       </div>
