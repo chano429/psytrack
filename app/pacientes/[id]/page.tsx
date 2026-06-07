@@ -2468,35 +2468,59 @@ export default function HistoriaClinica() {
                 </h4>
                 <div className="space-y-3 mb-6">
                   {objetivos.map((obj) => (
-                    <div
-                      key={obj.id}
-                      className={`flex items-start gap-4 p-5 rounded-2xl border transition-all ${
-                        obj.cumplido
-                          ? "bg-[#F2EFE9] border-transparent opacity-60"
-                          : "bg-white border-[#E8E3D9] shadow-sm hover:border-[#6B806F]"
-                      }`}
-                    >
-                      <button
-                        onClick={() => toggleObjetivo(obj.id, obj.cumplido)}
-                        className="mt-0.5 text-[#6B806F] hover:scale-110 transition-transform"
-                      >
-                        {obj.cumplido ? (
-                          <CheckSquare size={24} />
-                        ) : (
-                          <Square size={24} />
-                        )}
-                      </button>
-                      <p
-                        className={`font-medium text-lg ${
-                          obj.cumplido
-                            ? "text-[#8A8175] line-through"
-                            : "text-[#4A443C]"
-                        }`}
-                      >
-                        {obj.descripcion}
-                      </p>
-                    </div>
-                  ))}
+  <div
+    key={obj.id}
+    className={`flex items-center justify-between gap-4 p-5 rounded-2xl border transition-all ${
+      obj.cumplido
+        ? "bg-[#F2EFE9] border-transparent opacity-60"
+        : "bg-white border-[#E8E3D9] shadow-sm hover:border-[#6B806F]"
+    }`}
+  >
+    <div className="flex items-start gap-4 flex-1">
+      <button
+        onClick={() => toggleObjetivo(obj.id, obj.cumplido)}
+        className="mt-0.5 text-[#6B806F] hover:scale-110 transition-transform shrink-0"
+      >
+        {obj.cumplido ? (
+          <CheckSquare size={24} />
+        ) : (
+          <Square size={24} />
+        )}
+      </button>
+      <p
+        className={`font-medium text-lg ${
+          obj.cumplido
+            ? "text-[#8A8175] line-through"
+            : "text-[#4A443C]"
+        }`}
+      >
+        {obj.descripcion}
+      </p>
+    </div>
+
+    {/* Botón para eliminar el objetivo */}
+    <button
+      onClick={async () => {
+        if (confirm("¿Estás seguro de que deseas eliminar este objetivo del plan?")) {
+          const { error } = await supabase
+            .from("objetivos_tratamiento")
+            .delete()
+            .eq("id", obj.id);
+          
+          if (!error) {
+            traerDatos(); // Recarga la lista al toque
+          } else {
+            alert("Error al eliminar objetivo: " + error.message);
+          }
+        }
+      }}
+      className="text-[#A49A8D] hover:text-[#B06043] transition-colors shrink-0 pl-2"
+      title="Eliminar objetivo"
+    >
+      <Trash2 size={20} />
+    </button>
+  </div>
+))}
                 </div>
 
                 {/* BARRA PARA AGREGAR OBJETIVOS */}
