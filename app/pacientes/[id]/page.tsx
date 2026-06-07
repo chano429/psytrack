@@ -458,7 +458,7 @@ export default function HistoriaClinica() {
   const actualizarNota = async () => {
     if (!notaEnEdicionId || !nuevaEvolucion.notas) return;
     setGuardandoEvolucion(true);
-    
+
     const { error } = await supabase
       .from("evoluciones")
       .update({
@@ -467,7 +467,7 @@ export default function HistoriaClinica() {
         notas: nuevaEvolucion.notas,
       })
       .eq("id", notaEnEdicionId);
-      
+
     if (!error) {
       setNuevaEvolucion({ fecha: hoy, diagnostico: "", notas: "" });
       setMostrarFormulario(false);
@@ -807,9 +807,9 @@ export default function HistoriaClinica() {
 
             const medNombre = String(
               item.droga ||
-                item.nombre ||
-                item.Droga ||
-                "Fármaco no especificado"
+              item.nombre ||
+              item.Droga ||
+              "Fármaco no especificado"
             );
             const medProfesional =
               item.medico || item.profesional || item.Medico;
@@ -913,9 +913,8 @@ export default function HistoriaClinica() {
     }
     const ultima = evoluciones[0];
     const fechaText = formatearFechaTarjeta(ultima.fecha);
-    const texto = `Resumen de la última sesión, del día ${fechaText.dia} de ${
-      fechaText.mes
-    }. Notas clínicas: ${ultima.notas || "sin notas"}`;
+    const texto = `Resumen de la última sesión, del día ${fechaText.dia} de ${fechaText.mes
+      }. Notas clínicas: ${ultima.notas || "sin notas"}`;
     hablarTexto(texto, "ultima");
   };
 
@@ -1006,11 +1005,10 @@ export default function HistoriaClinica() {
               >
                 <button
                   onClick={escucharResumenGeneral}
-                  className={`p-3 rounded-xl transition-all ${
-                    audioActivo === "resumen"
-                      ? "bg-[#B06043] text-white animate-pulse"
-                      : "text-[#556B5A] hover:bg-[#E8F0E9]"
-                  }`}
+                  className={`p-3 rounded-xl transition-all ${audioActivo === "resumen"
+                    ? "bg-[#B06043] text-white animate-pulse"
+                    : "text-[#556B5A] hover:bg-[#E8F0E9]"
+                    }`}
                 >
                   {audioActivo === "resumen" ? (
                     <Square size={20} fill="currentColor" />
@@ -1029,11 +1027,10 @@ export default function HistoriaClinica() {
               >
                 <button
                   onClick={escucharUltimaSesion}
-                  className={`p-3 rounded-xl transition-all ${
-                    audioActivo === "ultima"
-                      ? "bg-[#B06043] text-white animate-pulse"
-                      : "text-[#B06043] hover:bg-[#FCEEE9]"
-                  }`}
+                  className={`p-3 rounded-xl transition-all ${audioActivo === "ultima"
+                    ? "bg-[#B06043] text-white animate-pulse"
+                    : "text-[#B06043] hover:bg-[#FCEEE9]"
+                    }`}
                 >
                   {audioActivo === "ultima" ? (
                     <Square size={20} fill="currentColor" />
@@ -1051,11 +1048,10 @@ export default function HistoriaClinica() {
               >
                 <button
                   onClick={() => cambiarPestana("resumen")}
-                  className={`p-3 rounded-xl transition-all relative ${
-                    pestana === "resumen"
-                      ? "bg-[#6B806F] text-white shadow-sm"
-                      : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
-                  }`}
+                  className={`p-3 rounded-xl transition-all relative ${pestana === "resumen"
+                    ? "bg-[#6B806F] text-white shadow-sm"
+                    : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
+                    }`}
                 >
                   <Brain size={20} />
                 </button>
@@ -1070,11 +1066,10 @@ export default function HistoriaClinica() {
           >
             <button
               onClick={() => cambiarPestana("datos")}
-              className={`p-3 rounded-xl transition-all relative ${
-                pestana === "datos"
-                  ? "bg-[#6B806F] text-white shadow-sm"
-                  : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
-              }`}
+              className={`p-3 rounded-xl transition-all relative ${pestana === "datos"
+                ? "bg-[#6B806F] text-white shadow-sm"
+                : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
+                }`}
             >
               <UserCircle size={20} />
               {faltaEmergencia && (
@@ -1087,11 +1082,10 @@ export default function HistoriaClinica() {
           <div className={`relative group ${tooltipStyles}`} title="Agenda">
             <button
               onClick={() => cambiarPestana("agenda")}
-              className={`p-3 rounded-xl transition-all ${
-                pestana === "agenda"
-                  ? "bg-[#6B806F] text-white shadow-sm"
-                  : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
-              }`}
+              className={`p-3 rounded-xl transition-all ${pestana === "agenda"
+                ? "bg-[#6B806F] text-white shadow-sm"
+                : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
+                }`}
             >
               <Calendar size={20} />
             </button>
@@ -1106,11 +1100,10 @@ export default function HistoriaClinica() {
               >
                 <button
                   onClick={() => cambiarPestana("notas")}
-                  className={`p-3 rounded-xl transition-all ${
-                    pestana === "notas"
-                      ? "bg-[#6B806F] text-white shadow-sm"
-                      : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
-                  }`}
+                  className={`p-3 rounded-xl transition-all ${pestana === "notas"
+                    ? "bg-[#6B806F] text-white shadow-sm"
+                    : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
+                    }`}
                 >
                   <HeartPulse size={20} />
                 </button>
@@ -1121,11 +1114,10 @@ export default function HistoriaClinica() {
               >
                 <button
                   onClick={() => cambiarPestana("clinica")}
-                  className={`p-3 rounded-xl transition-all relative ${
-                    pestana === "clinica"
-                      ? "bg-[#6B806F] text-white shadow-sm"
-                      : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
-                  }`}
+                  className={`p-3 rounded-xl transition-all relative ${pestana === "clinica"
+                    ? "bg-[#6B806F] text-white shadow-sm"
+                    : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
+                    }`}
                 >
                   <Stethoscope size={20} />
                   {(faltaClinica || paciente?.antecedente_internacion) && (
@@ -1139,11 +1131,10 @@ export default function HistoriaClinica() {
               >
                 <button
                   onClick={() => cambiarPestana("plan")}
-                  className={`p-3 rounded-xl transition-all relative ${
-                    pestana === "plan"
-                      ? "bg-[#6B806F] text-white shadow-sm"
-                      : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
-                  }`}
+                  className={`p-3 rounded-xl transition-all relative ${pestana === "plan"
+                    ? "bg-[#6B806F] text-white shadow-sm"
+                    : "text-[#8A8175] hover:text-[#4A443C] hover:bg-[#E8E3D9]"
+                    }`}
                 >
                   <Target size={20} />
                   {faltaPlan && (
@@ -1187,18 +1178,16 @@ export default function HistoriaClinica() {
         className={`
           flex flex-col sm:flex-row gap-4 items-start sm:items-center relative shadow-inner rounded-2xl
           transition-all duration-1000 ease-in-out overflow-hidden
-          ${
-            hayTareasPendientes
-              ? "opacity-100 max-h-[500px] p-4 px-6 mb-6 bg-[#FCEEE9] border border-[#F5D8CE]"
-              : "opacity-0 max-h-0 p-0 mb-0 border-transparent pointer-events-none"
+          ${hayTareasPendientes
+            ? "opacity-100 max-h-[500px] p-4 px-6 mb-6 bg-[#FCEEE9] border border-[#F5D8CE]"
+            : "opacity-0 max-h-0 p-0 mb-0 border-transparent pointer-events-none"
           }
         `}
       >
         {/* Barra lateral que late */}
         <div
-          className={`absolute left-0 top-0 bottom-0 w-1.5 bg-[#B06043] ${
-            hayTareasPendientes ? "animate-pulse" : "hidden"
-          }`}
+          className={`absolute left-0 top-0 bottom-0 w-1.5 bg-[#B06043] ${hayTareasPendientes ? "animate-pulse" : "hidden"
+            }`}
         ></div>
 
         <div className="flex items-center gap-2 text-[#B06043] font-bold shrink-0 ml-1">
@@ -1208,11 +1197,10 @@ export default function HistoriaClinica() {
         <div className="flex flex-wrap gap-2 text-xs font-bold text-[#8C3C2A]">
           {/* BOTON 1: EMERGENCIA */}
           <div
-            className={`transition-all duration-700 ease-in-out overflow-hidden origin-left ${
-              faltaEmergencia
-                ? "max-w-[300px] max-h-[50px] opacity-100 scale-100"
-                : "max-w-0 max-h-0 opacity-0 scale-50"
-            }`}
+            className={`transition-all duration-700 ease-in-out overflow-hidden origin-left ${faltaEmergencia
+              ? "max-w-[300px] max-h-[50px] opacity-100 scale-100"
+              : "max-w-0 max-h-0 opacity-0 scale-50"
+              }`}
           >
             <button
               onClick={() => {
@@ -1227,11 +1215,10 @@ export default function HistoriaClinica() {
 
           {/* BOTON 2: CLINICA */}
           <div
-            className={`transition-all duration-700 ease-in-out overflow-hidden origin-left ${
-              faltaClinica
-                ? "max-w-[300px] max-h-[50px] opacity-100 scale-100"
-                : "max-w-0 max-h-0 opacity-0 scale-50"
-            }`}
+            className={`transition-all duration-700 ease-in-out overflow-hidden origin-left ${faltaClinica
+              ? "max-w-[300px] max-h-[50px] opacity-100 scale-100"
+              : "max-w-0 max-h-0 opacity-0 scale-50"
+              }`}
           >
             <button
               onClick={() => {
@@ -1246,11 +1233,10 @@ export default function HistoriaClinica() {
 
           {/* BOTON 3: PLAN */}
           <div
-            className={`transition-all duration-700 ease-in-out overflow-hidden origin-left ${
-              faltaPlan
-                ? "max-w-[300px] max-h-[50px] opacity-100 scale-100"
-                : "max-w-0 max-h-0 opacity-0 scale-50"
-            }`}
+            className={`transition-all duration-700 ease-in-out overflow-hidden origin-left ${faltaPlan
+              ? "max-w-[300px] max-h-[50px] opacity-100 scale-100"
+              : "max-w-0 max-h-0 opacity-0 scale-50"
+              }`}
           >
             <button
               onClick={() => cambiarPestana("plan")}
@@ -1305,10 +1291,10 @@ export default function HistoriaClinica() {
                       <span className="font-medium text-[#4A443C] text-lg">
                         {paciente.fecha_nacimiento
                           ? `${calcularEdad(
-                              paciente.fecha_nacimiento
-                            )} años (${formatearFecha(
-                              paciente.fecha_nacimiento
-                            )})`
+                            paciente.fecha_nacimiento
+                          )} años (${formatearFecha(
+                            paciente.fecha_nacimiento
+                          )})`
                           : "---"}
                       </span>
                     </div>
@@ -1401,30 +1387,27 @@ export default function HistoriaClinica() {
 
                 {/* --- CONTROL DEL PORTAL DEL PACIENTE (FUERA DE LA GRILLA) --- */}
                 <div
-                  className={`mt-10 p-6 rounded-[2.5rem] border-2 transition-all ${
-                    paciente.portal_habilitado
-                      ? "bg-[#E8F0E9] border-[#D3DDD4]"
-                      : "bg-[#FBF9F6] border-[#E8E3D9]"
-                  }`}
+                  className={`mt-10 p-6 rounded-[2.5rem] border-2 transition-all ${paciente.portal_habilitado
+                    ? "bg-[#E8F0E9] border-[#D3DDD4]"
+                    : "bg-[#FBF9F6] border-[#E8E3D9]"
+                    }`}
                 >
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
                       <div
-                        className={`p-3 rounded-2xl ${
-                          paciente.portal_habilitado
-                            ? "bg-white text-[#556B5A] shadow-sm"
-                            : "bg-[#E8E3D9] text-[#8A8175]"
-                        }`}
+                        className={`p-3 rounded-2xl ${paciente.portal_habilitado
+                          ? "bg-white text-[#556B5A] shadow-sm"
+                          : "bg-[#E8E3D9] text-[#8A8175]"
+                          }`}
                       >
                         <Eye size={24} />
                       </div>
                       <div>
                         <h4
-                          className={`text-sm font-black uppercase tracking-widest ${
-                            paciente.portal_habilitado
-                              ? "text-[#556B5A]"
-                              : "text-[#8A8175]"
-                          }`}
+                          className={`text-sm font-black uppercase tracking-widest ${paciente.portal_habilitado
+                            ? "text-[#556B5A]"
+                            : "text-[#8A8175]"
+                            }`}
                         >
                           Portal del Paciente
                         </h4>
@@ -1452,11 +1435,10 @@ export default function HistoriaClinica() {
                           });
                         }
                       }}
-                      className={`px-6 py-3 rounded-2xl font-black text-xs transition-all shadow-sm whitespace-nowrap ${
-                        paciente.portal_habilitado
-                          ? "bg-[#B06043] text-white hover:bg-[#8C3C2A]"
-                          : "bg-[#6B806F] text-white hover:bg-[#556B5A]"
-                      }`}
+                      className={`px-6 py-3 rounded-2xl font-black text-xs transition-all shadow-sm whitespace-nowrap ${paciente.portal_habilitado
+                        ? "bg-[#B06043] text-white hover:bg-[#8C3C2A]"
+                        : "bg-[#6B806F] text-white hover:bg-[#556B5A]"
+                        }`}
                     >
                       {paciente.portal_habilitado
                         ? "Deshabilitar Portal"
@@ -1624,11 +1606,10 @@ export default function HistoriaClinica() {
                       onClick={() =>
                         setFormData({ ...formData, es_particular: true })
                       }
-                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
-                        formData.es_particular
-                          ? "bg-[#6B806F] text-white shadow-sm"
-                          : "text-[#8A8175] hover:bg-[#FBF9F6]"
-                      }`}
+                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${formData.es_particular
+                        ? "bg-[#6B806F] text-white shadow-sm"
+                        : "text-[#8A8175] hover:bg-[#FBF9F6]"
+                        }`}
                     >
                       Particular
                     </button>
@@ -1636,11 +1617,10 @@ export default function HistoriaClinica() {
                       onClick={() =>
                         setFormData({ ...formData, es_particular: false })
                       }
-                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
-                        !formData.es_particular
-                          ? "bg-[#6B806F] text-white shadow-sm"
-                          : "text-[#8A8175] hover:bg-[#FBF9F6]"
-                      }`}
+                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${!formData.es_particular
+                        ? "bg-[#6B806F] text-white shadow-sm"
+                        : "text-[#8A8175] hover:bg-[#FBF9F6]"
+                        }`}
                     >
                       Obra Social / Prepaga
                     </button>
@@ -1765,15 +1745,14 @@ export default function HistoriaClinica() {
                           {turno.hora.slice(0, 5)} hs
                         </p>
                         <span
-                          className={`text-xs font-bold mt-1 inline-block capitalize ${
-                            turno.estado === "Completado" ||
+                          className={`text-xs font-bold mt-1 inline-block capitalize ${turno.estado === "Completado" ||
                             turno.estado === "asistio"
-                              ? "text-[#556B5A]"
-                              : turno.estado === "Cancelado" ||
-                                turno.estado === "falto"
+                            ? "text-[#556B5A]"
+                            : turno.estado === "Cancelado" ||
+                              turno.estado === "falto"
                               ? "text-[#B06043]"
                               : "text-[#A49A8D]"
-                          }`}
+                            }`}
                         >
                           {turno.estado || "Agendado"}
                         </span>
@@ -1783,7 +1762,7 @@ export default function HistoriaClinica() {
                           turno.estado === "Agendado" ||
                           turno.estado === "pendiente") &&
                           new Date(turno.fecha) <
-                            new Date(new Date().setHours(0, 0, 0, 0)) && (
+                          new Date(new Date().setHours(0, 0, 0, 0)) && (
                             <span className="ml-2 text-[10px] font-black bg-[#FCEEE9] text-[#B06043] px-2 py-0.5 rounded uppercase tracking-wider animate-pulse">
                               ¡Requiere acción!
                             </span>
@@ -1858,11 +1837,10 @@ export default function HistoriaClinica() {
                       <button
                         key={f}
                         onClick={() => setFiltroEvoluciones(f)}
-                        className={`whitespace-nowrap px-6 py-4 rounded-2xl text-sm font-bold transition-all border ${
-                          filtroEvoluciones === f
-                            ? "bg-[#4A443C] text-white border-[#4A443C]"
-                            : "bg-white text-[#8A8175] border-[#E8E3D9] hover:bg-[#FBF9F6]"
-                        }`}
+                        className={`whitespace-nowrap px-6 py-4 rounded-2xl text-sm font-bold transition-all border ${filtroEvoluciones === f
+                          ? "bg-[#4A443C] text-white border-[#4A443C]"
+                          : "bg-white text-[#8A8175] border-[#E8E3D9] hover:bg-[#FBF9F6]"
+                          }`}
                       >
                         {f}
                       </button>
@@ -1951,18 +1929,18 @@ export default function HistoriaClinica() {
                       Cancelar
                     </button>
                     <button
-  onClick={() => {
-    if (notaEnEdicionId) {
-      actualizarNota();
-    } else {
-      guardarNota();
-    }
-  }}
-  disabled={guardandoEvolucion}
-  className="bg-[#6B806F] text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-sm hover:bg-[#556B5A]"
->
-  {guardandoEvolucion ? "Guardando..." : notaEnEdicionId ? "Actualizar nota" : "Guardar nota"}
-</button>
+                      onClick={() => {
+                        if (notaEnEdicionId) {
+                          actualizarNota();
+                        } else {
+                          guardarNota();
+                        }
+                      }}
+                      disabled={guardandoEvolucion}
+                      className="bg-[#6B806F] text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-sm hover:bg-[#556B5A]"
+                    >
+                      {guardandoEvolucion ? "Guardando..." : notaEnEdicionId ? "Actualizar nota" : "Guardar nota"}
+                    </button>
                   </div>
                 </div>
               )}
@@ -2023,42 +2001,42 @@ export default function HistoriaClinica() {
                               </span>
                             </div>
                             <div className="flex items-center gap-3">
-  {/* Botón de Editar (Tuerquita) */}
-  <button 
-    onClick={() => {
-      setNotaEnEdicionId(evo.id);
-      setNuevaEvolucion({ fecha: evo.fecha, diagnostico: evo.diagnostico || "", notas: evo.notas || "" });
-      setMostrarFormulario(true);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }}
-    className="text-[#A49A8D] hover:text-[#6B806F] transition-colors"
-    title="Editar nota"
-  >
-    <Settings2 size={20} />
-  </button>
+                              {/* Botón de Editar (Tuerquita) */}
+                              <button
+                                onClick={() => {
+                                  setNotaEnEdicionId(evo.id);
+                                  setNuevaEvolucion({ fecha: evo.fecha, diagnostico: evo.diagnostico || "", notas: evo.notas || "" });
+                                  setMostrarFormulario(true);
+                                  window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                                className="text-[#A49A8D] hover:text-[#6B806F] transition-colors"
+                                title="Editar nota"
+                              >
+                                <Settings2 size={20} />
+                              </button>
 
-  {/* Botón de Eliminar (Cesto de basura) */}
-  <button 
-    onClick={async () => {
-      if (confirm("¿Estás seguro de que deseas eliminar esta nota clínica? Esta acción no se puede deshacer.")) {
-        const { error } = await supabase
-          .from("evoluciones")
-          .delete()
-          .eq("id", evo.id);
-        
-        if (!error) {
-          traerDatos();
-        } else {
-          alert("Error al eliminar: " + error.message);
-        }
-      }
-    }}
-    className="text-[#A49A8D] hover:text-[#B06043] transition-colors"
-    title="Eliminar nota"
-  >
-    <Trash2 size={20} />
-  </button>
-</div>
+                              {/* Botón de Eliminar (Cesto de basura) */}
+                              <button
+                                onClick={async () => {
+                                  if (confirm("¿Estás seguro de que deseas eliminar esta nota clínica? Esta acción no se puede deshacer.")) {
+                                    const { error } = await supabase
+                                      .from("evoluciones")
+                                      .delete()
+                                      .eq("id", evo.id);
+
+                                    if (!error) {
+                                      traerDatos();
+                                    } else {
+                                      alert("Error al eliminar: " + error.message);
+                                    }
+                                  }
+                                }}
+                                className="text-[#A49A8D] hover:text-[#B06043] transition-colors"
+                                title="Eliminar nota"
+                              >
+                                <Trash2 size={20} />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -2235,11 +2213,10 @@ export default function HistoriaClinica() {
                               antecedente_internacion: false,
                             })
                           }
-                          className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
-                            !formClinicaData.antecedente_internacion
-                              ? "bg-[#F2EFE9] text-[#4A443C]"
-                              : "text-[#8A8175] hover:bg-[#FBF9F6]"
-                          }`}
+                          className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${!formClinicaData.antecedente_internacion
+                            ? "bg-[#F2EFE9] text-[#4A443C]"
+                            : "text-[#8A8175] hover:bg-[#FBF9F6]"
+                            }`}
                         >
                           No
                         </button>
@@ -2250,11 +2227,10 @@ export default function HistoriaClinica() {
                               antecedente_internacion: true,
                             })
                           }
-                          className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${
-                            formClinicaData.antecedente_internacion
-                              ? "bg-[#6B806F] text-white shadow-sm"
-                              : "text-[#8A8175] hover:bg-[#FBF9F6]"
-                          }`}
+                          className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors ${formClinicaData.antecedente_internacion
+                            ? "bg-[#6B806F] text-white shadow-sm"
+                            : "text-[#8A8175] hover:bg-[#FBF9F6]"
+                            }`}
                         >
                           Sí
                         </button>
@@ -2314,7 +2290,7 @@ export default function HistoriaClinica() {
                     <p className="text-[#4A443C] font-medium text-sm">
                       <span className="font-bold">Medicación:</span>{" "}
                       {Array.isArray(medicacionesForm) &&
-                      medicacionesForm.length > 0 ? (
+                        medicacionesForm.length > 0 ? (
                         <span className="text-[#B06043] font-bold bg-[#FCEEE9] px-2 py-0.5 rounded-md text-xs ml-1">
                           Sí
                         </span>
@@ -2451,7 +2427,7 @@ export default function HistoriaClinica() {
                       <p className="text-[#4A443C] font-medium text-sm">
                         <span className="font-bold">Medicación:</span>{" "}
                         {Array.isArray(medicacionesForm) &&
-                        medicacionesForm.length > 0 ? (
+                          medicacionesForm.length > 0 ? (
                           <span className="text-[#B06043] font-bold bg-[#FCEEE9] px-2 py-0.5 rounded-md text-xs ml-1">
                             Sí
                           </span>
@@ -2468,59 +2444,116 @@ export default function HistoriaClinica() {
                 </h4>
                 <div className="space-y-3 mb-6">
                   {objetivos.map((obj) => (
-  <div
-    key={obj.id}
-    className={`flex items-center justify-between gap-4 p-5 rounded-2xl border transition-all ${
-      obj.cumplido
-        ? "bg-[#F2EFE9] border-transparent opacity-60"
-        : "bg-white border-[#E8E3D9] shadow-sm hover:border-[#6B806F]"
-    }`}
-  >
-    <div className="flex items-start gap-4 flex-1">
-      <button
-        onClick={() => toggleObjetivo(obj.id, obj.cumplido)}
-        className="mt-0.5 text-[#6B806F] hover:scale-110 transition-transform shrink-0"
-      >
-        {obj.cumplido ? (
-          <CheckSquare size={24} />
-        ) : (
-          <Square size={24} />
-        )}
-      </button>
-      <p
-        className={`font-medium text-lg ${
-          obj.cumplido
-            ? "text-[#8A8175] line-through"
-            : "text-[#4A443C]"
-        }`}
-      >
-        {obj.descripcion}
-      </p>
-    </div>
+                    <div
+                      key={obj.id}
+                      className={`flex items-center justify-between gap-4 p-5 rounded-2xl border transition-all ${obj.cumplido
+                          ? "bg-[#F2EFE9] border-transparent opacity-60"
+                          : "bg-white border-[#E8E3D9] shadow-sm hover:border-[#6B806F]"
+                        }`}
+                    >
+                      <div className="flex items-start gap-4 flex-1">
+                        {/* Checkbox */}
+                        <button
+                          onClick={() => toggleObjetivo(obj.id, obj.cumplido)}
+                          className="mt-0.5 text-[#6B806F] hover:scale-110 transition-transform shrink-0"
+                        >
+                          {obj.cumplido ? <CheckSquare size={24} /> : <Square size={24} />}
+                        </button>
 
-    {/* Botón para eliminar el objetivo */}
-    <button
-      onClick={async () => {
-        if (confirm("¿Estás seguro de que deseas eliminar este objetivo del plan?")) {
-          const { error } = await supabase
-            .from("objetivos_tratamiento")
-            .delete()
-            .eq("id", obj.id);
-          
-          if (!error) {
-            traerDatos(); // Recarga la lista al toque
-          } else {
-            alert("Error al eliminar objetivo: " + error.message);
-          }
-        }
-      }}
-      className="text-[#A49A8D] hover:text-[#B06043] transition-colors shrink-0 pl-2"
-      title="Eliminar objetivo"
-    >
-      <Trash2 size={20} />
-    </button>
-  </div>
-))}
+                        {/* Texto o Input de Edición */}
+                        {notaEnEdicionId === obj.id ? (
+                          <input
+                            type="text"
+                            className="flex-1 bg-[#FBF9F6] p-2 border border-[#E8E3D9] rounded-xl outline-none font-medium text-[#4A443C] text-lg"
+                            defaultValue={obj.descripcion}
+                            id={`input-edit-obj-${obj.id}`}
+                            onKeyDown={async (e) => {
+                              if (e.key === "Enter") {
+                                const nuevoTexto = (document.getElementById(`input-edit-obj-${obj.id}`) as HTMLInputElement).value;
+                                if (!nuevoTexto.trim()) return;
+
+                                const { error } = await supabase
+                                  .from("objetivos_tratamiento")
+                                  .update({ descripcion: nuevoTexto })
+                                  .eq("id", obj.id);
+
+                                if (!error) {
+                                  setNotaEnEdicionId(null); // Cierra la edición
+                                  traerDatos(); // Recarga
+                                } else {
+                                  alert("Error al actualizar: " + error.message);
+                                }
+                              }
+                            }}
+                          />
+                        ) : (
+                          <p className={`font-medium text-lg ${obj.cumplido ? "text-[#8A8175] line-through" : "text-[#4A443C]"}`}>
+                            {obj.descripcion}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Botonera Derecha (Editar y Borrar) */}
+                      <div className="flex items-center gap-3 shrink-0 pl-2">
+                        {/* Botón de Editar Objetivo */}
+                        {notaEnEdicionId === obj.id ? (
+                          <button
+                            onClick={async () => {
+                              const nuevoTexto = (document.getElementById(`input-edit-obj-${obj.id}`) as HTMLInputElement).value;
+                              if (!nuevoTexto.trim()) return;
+
+                              const { error } = await supabase
+                                .from("objetivos_tratamiento")
+                                .update({ descripcion: nuevoTexto })
+                                .eq("id", obj.id);
+
+                              if (!error) {
+                                setNotaEnEdicionId(null);
+                                traerDatos();
+                              } else {
+                                alert("Error al actualizar: " + error.message);
+                              }
+                            }}
+                            className="text-[#6B806F] hover:text-[#556B5A] transition-colors"
+                            title="Guardar cambios"
+                          >
+                            <Check size={20} strokeWidth={2.5} />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => setNotaEnEdicionId(obj.id)} // Reutilizamos este ID para activar la edición del renglón
+                            className="text-[#A49A8D] hover:text-[#6B806F] transition-colors"
+                            title="Editar objetivo"
+                          >
+                            <Settings2 size={20} />
+                          </button>
+                        )}
+
+                        {/* Botón de Eliminar Objetivo */}
+                        <button
+                          onClick={async () => {
+                            if (confirm("¿Estás seguro de que deseas eliminar este objetivo del plan?")) {
+                              const { error } = await supabase
+                                .from("objetivos_tratamiento")
+                                .delete()
+                                .eq("id", obj.id);
+
+                              if (!error) {
+                                if (notaEnEdicionId === obj.id) setNotaEnEdicionId(null);
+                                traerDatos();
+                              } else {
+                                alert("Error al eliminar objetivo: " + error.message);
+                              }
+                            }
+                          }}
+                          className="text-[#A49A8D] hover:text-[#B06043] transition-colors"
+                          title="Eliminar objetivo"
+                        >
+                          <Trash2 size={20} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
                 {/* BARRA PARA AGREGAR OBJETIVOS */}
@@ -2614,8 +2647,8 @@ export default function HistoriaClinica() {
                         {testActivo === "BATERIA"
                           ? "Batería Básica (PHQ-9 + GAD-7)"
                           : testActivo === "PHQ-9"
-                          ? "Cuestionario PHQ-9 (Depresión)"
-                          : "Escala GAD-7 (Ansiedad)"}
+                            ? "Cuestionario PHQ-9 (Depresión)"
+                            : "Escala GAD-7 (Ansiedad)"}
                       </h5>
                       <p className="text-sm font-bold text-[#8C3C2A] mt-2">
                         Instrucción: Durante las últimas 2 semanas...
@@ -2631,8 +2664,8 @@ export default function HistoriaClinica() {
                           <span className="font-black text-2xl text-[#6B806F] block leading-none mb-1">
                             {respuestasPHQ9.filter((r) => r !== -1).length > 0
                               ? respuestasPHQ9
-                                  .filter((r) => r !== -1)
-                                  .reduce((a, b) => a + b, 0)
+                                .filter((r) => r !== -1)
+                                .reduce((a, b) => a + b, 0)
                               : "-"}
                           </span>
                         </div>
@@ -2645,8 +2678,8 @@ export default function HistoriaClinica() {
                           <span className="font-black text-2xl text-[#6B806F] block leading-none mb-1">
                             {respuestasGAD7.filter((r) => r !== -1).length > 0
                               ? respuestasGAD7
-                                  .filter((r) => r !== -1)
-                                  .reduce((a, b) => a + b, 0)
+                                .filter((r) => r !== -1)
+                                .reduce((a, b) => a + b, 0)
                               : "-"}
                           </span>
                         </div>
@@ -2679,13 +2712,12 @@ export default function HistoriaClinica() {
                                       setRespuestasPHQ9(r);
                                     }}
                                     className={`text-xs font-bold p-3 rounded-xl border transition-all text-left
-                                                            ${
-                                                              respuestasPHQ9[
-                                                                i
-                                                              ] === indexOpcion
-                                                                ? "bg-[#6B806F] text-white border-[#6B806F] shadow-sm"
-                                                                : "bg-white text-[#8A8175] border-[#E8E3D9] hover:border-[#6B806F]/50 hover:bg-[#FBF9F6]"
-                                                            }`}
+                                                            ${respuestasPHQ9[
+                                        i
+                                      ] === indexOpcion
+                                        ? "bg-[#6B806F] text-white border-[#6B806F] shadow-sm"
+                                        : "bg-white text-[#8A8175] border-[#E8E3D9] hover:border-[#6B806F]/50 hover:bg-[#FBF9F6]"
+                                      }`}
                                   >
                                     <span className="block text-[10px] opacity-70 mb-0.5">
                                       +{indexOpcion} pts
@@ -2710,12 +2742,11 @@ export default function HistoriaClinica() {
                                 key={indexOpcion}
                                 onClick={() => setDificultadPHQ9(indexOpcion)}
                                 className={`text-xs font-bold p-3 rounded-xl border transition-all text-center
-                                                        ${
-                                                          dificultadPHQ9 ===
-                                                          indexOpcion
-                                                            ? "bg-[#4A443C] text-white border-[#4A443C] shadow-sm"
-                                                            : "bg-white text-[#8A8175] border-[#E8E3D9] hover:border-[#4A443C]/50 hover:bg-[#FBF9F6]"
-                                                        }`}
+                                                        ${dificultadPHQ9 ===
+                                    indexOpcion
+                                    ? "bg-[#4A443C] text-white border-[#4A443C] shadow-sm"
+                                    : "bg-white text-[#8A8175] border-[#E8E3D9] hover:border-[#4A443C]/50 hover:bg-[#FBF9F6]"
+                                  }`}
                               >
                                 {opcion}
                               </button>
@@ -2751,13 +2782,12 @@ export default function HistoriaClinica() {
                                       setRespuestasGAD7(r);
                                     }}
                                     className={`text-xs font-bold p-3 rounded-xl border transition-all text-left
-                                                            ${
-                                                              respuestasGAD7[
-                                                                i
-                                                              ] === indexOpcion
-                                                                ? "bg-[#6B806F] text-white border-[#6B806F] shadow-sm"
-                                                                : "bg-white text-[#8A8175] border-[#E8E3D9] hover:border-[#6B806F]/50 hover:bg-[#FBF9F6]"
-                                                            }`}
+                                                            ${respuestasGAD7[
+                                        i
+                                      ] === indexOpcion
+                                        ? "bg-[#6B806F] text-white border-[#6B806F] shadow-sm"
+                                        : "bg-white text-[#8A8175] border-[#E8E3D9] hover:border-[#6B806F]/50 hover:bg-[#FBF9F6]"
+                                      }`}
                                   >
                                     <span className="block text-[10px] opacity-70 mb-0.5">
                                       +{indexOpcion} pts
@@ -2782,12 +2812,11 @@ export default function HistoriaClinica() {
                                 key={indexOpcion}
                                 onClick={() => setDificultadGAD7(indexOpcion)}
                                 className={`text-xs font-bold p-3 rounded-xl border transition-all text-center
-                                                        ${
-                                                          dificultadGAD7 ===
-                                                          indexOpcion
-                                                            ? "bg-[#4A443C] text-white border-[#4A443C] shadow-sm"
-                                                            : "bg-white text-[#8A8175] border-[#E8E3D9] hover:border-[#4A443C]/50 hover:bg-[#FBF9F6]"
-                                                        }`}
+                                                        ${dificultadGAD7 ===
+                                    indexOpcion
+                                    ? "bg-[#4A443C] text-white border-[#4A443C] shadow-sm"
+                                    : "bg-white text-[#8A8175] border-[#E8E3D9] hover:border-[#4A443C]/50 hover:bg-[#FBF9F6]"
+                                  }`}
                               >
                                 {opcion}
                               </button>
