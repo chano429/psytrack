@@ -859,8 +859,8 @@ export default function HistoriaClinica() {
     utterance.lang = "es-AR";
 
     // TUNEAMOS LA VOZ PARA QUE SEA MENOS ROBÓTICA
-    utterance.rate = 0.65; // Más lento (1 es lo normal)
-    utterance.pitch = 0.9; // Un tono apenas más grave
+    utterance.rate = 0.95 // Más lento (1 es lo normal)
+    utterance.pitch = 1 // Un tono apenas más grave
 
     const voces = window.speechSynthesis.getVoices();
     // Prioridad 1: Voz premium de Google
