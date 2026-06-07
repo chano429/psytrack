@@ -2067,7 +2067,6 @@ export default function HistoriaClinica() {
               </div>
             </div>
           ))}
-
         {/* VISTA 4: CUADRO CLÍNICO */}
         {pestana === "clinica" &&
           (rol === "secretaria" ? (
