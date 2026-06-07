@@ -2015,9 +2015,17 @@ export default function HistoriaClinica() {
                                 <User size={16} /> Profesional
                               </span>
                             </div>
-                            <button className="text-[#A49A8D] hover:text-[#6B806F] transition-colors">
-                              <Settings2 size={20} />
-                            </button>
+                            <button 
+  onClick={() => {
+    setNotaEnEdicionId(evo.id);
+    setNuevaEvolucion({ fecha: evo.fecha, diagnostico: evo.diagnostico || "", notas: evo.notas || "" });
+    setMostrarFormulario(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }}
+  className="text-[#A49A8D] hover:text-[#6B806F] transition-colors"
+>
+  <Settings2 size={20} />
+</button>
                           </div>
                         </div>
                       </div>
