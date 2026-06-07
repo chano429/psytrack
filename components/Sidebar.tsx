@@ -85,7 +85,7 @@ export default function Sidebar() {
     { name: "Mi consultorio", href: "/", icon: LayoutDashboard, soloProfesional: true }, 
     { name: "Turnos", href: "/turnos", icon: Calendar, soloProfesional: false },
     { name: "Pacientes", href: "/pacientes", icon: Users, soloProfesional: false },
-    { name: "Reportes", href: "/reportes", icon: BarChart3, soloProfesional: true },
+    
     { name: "Administración", href: "/administracion", icon: Wallet, soloProfesional: true },
     { name: "Configuración", href: "/configuracion", icon: Settings, soloProfesional: true },
   ];

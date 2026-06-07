@@ -34,7 +34,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
       // --- REGLA 2: SECRETARIA ---
       // Definimos qué rutas NO puede tocar la secretaria
       const rutasProhibidasParaSecretaria = [
-        "/reportes",
         "/administracion",
         "/configuracion",
         "/" // El dashboard principal también lo bloqueamos
