@@ -454,6 +454,30 @@ export default function HistoriaClinica() {
     setGuardandoEvolucion(false);
   };
 
+  const actualizarNota = async () => {
+    if (!notaEnEdicionId || !nuevaEvolucion.notas) return;
+    setGuardandoEvolucion(true);
+    
+    const { error } = await supabase
+      .from("evoluciones")
+      .update({
+        fecha: nuevaEvolucion.fecha,
+        diagnostico: nuevaEvolucion.diagnostico,
+        notas: nuevaEvolucion.notas,
+      })
+      .eq("id", notaEnEdicionId);
+      
+    if (!error) {
+      setNuevaEvolucion({ fecha: hoy, diagnostico: "", notas: "" });
+      setMostrarFormulario(false);
+      setNotaEnEdicionId(null);
+      traerDatos();
+    } else {
+      alert(`Error al actualizar: ${error.message}`);
+    }
+    setGuardandoEvolucion(false);
+  };
+
   const guardarPlan = async () => {
     if (!formPlan.enfoque_terapeutico || !formPlan.frecuencia_sesiones) return;
     const { data, error } = await supabase
